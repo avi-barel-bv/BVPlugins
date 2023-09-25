@@ -8,14 +8,14 @@
     <name>BVPlugins</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="support@bv.com" url="https://www.bv.com">BV</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    BV Plugins description here.<br>
+    <em>Hello BV Plugins</em>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -29,15 +29,13 @@
     </extensions>
 
     <actions>
-       <group
-           id="GradleActionGroup"
-           description="Gradle action group">
-           <action
-                   id="com.bluevine.plugins.bvplugins.RunGradleAction"
-                   class="com.bluevine.plugins.bvplugins.RunGradleAction"
-                   text="Run Gradle Action"
-                   description="Run gradle action"/>
-           <add-to-group group-id="ToolsMenu" anchor="first" />
-       </group>
+        <action
+                id="com.bluevine.plugins.bvplugins.menu.MenuAction"
+                class="com.bluevine.plugins.bvplugins.menu.MenuAction"
+                text="BV Actions"
+                description="BV action">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Z"/>
+        </action>
     </actions>
 </idea-plugin>
