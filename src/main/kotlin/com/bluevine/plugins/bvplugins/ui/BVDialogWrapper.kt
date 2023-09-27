@@ -3,7 +3,6 @@ package com.bluevine.plugins.bvplugins.ui
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import java.awt.Component
-import java.awt.FlowLayout
 import javax.swing.BoxLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -20,7 +19,7 @@ class BVDialogWrapper(
     }
 
     override fun createCenterPanel(): JComponent {
-        val panel = JPanel(FlowLayout())
+        val panel = JPanel()
         val layout = BoxLayout(panel, BoxLayout.Y_AXIS)
         panel.layout = layout
 

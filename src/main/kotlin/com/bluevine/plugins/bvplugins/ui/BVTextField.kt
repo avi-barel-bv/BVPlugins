@@ -5,7 +5,7 @@ import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
 class BVTextField(
-    private val initialValue: String = "",
+    initialValue: String = "",
     private val changeListener: (String) -> Unit
 ) : JTextField(), DocumentListener {
 

@@ -12,7 +12,7 @@ class MenuActionGroup(
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
         return e?.let {
             MenuActionsContract.MenuAction.values().map {
-                object : AnAction(it.name, it.name, CountIcon()) {
+                object : AnAction(it.displayName, it.displayName, CountIcon()) {
                     override fun actionPerformed(e: AnActionEvent) {
                         menuActionSelectedListener.onActionSelected(it, project)
                     }
