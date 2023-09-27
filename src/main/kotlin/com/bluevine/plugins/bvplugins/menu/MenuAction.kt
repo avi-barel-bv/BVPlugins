@@ -2,6 +2,7 @@ package com.bluevine.plugins.bvplugins.menu
 
 import com.bluevine.plugins.bvplugins.actions.ComingSoonAction
 import com.bluevine.plugins.bvplugins.actions.CreatePRAction
+import com.bluevine.plugins.bvplugins.actions.RunDetektAction
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -26,6 +27,7 @@ class MenuAction : AnAction(), MenuActionsContract.MenuActionSelectedListener {
     override fun onActionSelected(menuAction: MenuActionsContract.MenuAction, project: Project?) {
         val pluginAction = when (menuAction) {
             MenuActionsContract.MenuAction.CREATE_PR -> CreatePRAction()
+            MenuActionsContract.MenuAction.RUN_DETEKT -> RunDetektAction()
             MenuActionsContract.MenuAction.COMING_SOON -> ComingSoonAction()
         }
 

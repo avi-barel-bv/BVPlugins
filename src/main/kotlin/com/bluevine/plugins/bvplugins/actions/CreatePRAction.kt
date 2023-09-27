@@ -2,13 +2,8 @@ package com.bluevine.plugins.bvplugins.actions
 
 import com.bluevine.plugins.bvplugins.ui.BVDialogWrapper
 import com.bluevine.plugins.bvplugins.ui.BVTextField
-import com.intellij.execution.executors.DefaultRunExecutor
-import com.intellij.openapi.externalSystem.model.ProjectSystemId
-import com.intellij.openapi.externalSystem.model.execution.ExternalSystemTaskExecutionSettings
-import com.intellij.openapi.externalSystem.service.execution.ProgressExecutionMode
-import com.intellij.openapi.externalSystem.util.ExternalSystemUtil
+import com.bluevine.plugins.bvplugins.utils.runGradleTask
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
 import org.jdesktop.swingx.JXRadioGroup
 import java.awt.Component
 import javax.swing.*
@@ -24,60 +19,51 @@ private enum class PRLabel(val labelValue: String) {
 class CreatePRAction : PluginAction {
 
     override fun invoke(project: Project?, title: String, description: String) {
+        var prDescription = ""
+        val labelGroup = createLabelsItems()
+        val items: List<Component> = listOf(
+                labelGroup,
+                createDescriptionItem {
+                    prDescription = it
+                }
+        )
+        val result = showDialog(project, title, items)
+
+        if (result) {
+            project.runGradleTask(
+                    taskName = "submitPr",
+                    taskParameters = arrayOf(
+                            "bv.label" to labelGroup.selectedValue?.labelValue.orEmpty(),
+                            "bv.desc" to prDescription
+                    )
+            )
+        }
+
+    }
+
+    private fun createLabelsItems(): JXRadioGroup<PRLabel> {
         val labelGroup = JXRadioGroup.create(PRLabel.values())
         labelGroup.layout = BoxLayout(labelGroup, BoxLayout.Y_AXIS)
+        return labelGroup
+    }
 
-
-        var prDescription = ""
+    private fun createDescriptionItem(textChangedCallback: (String) -> Unit): JPanel {
         val editTextDesc = BVTextField("") {
-            prDescription = it
+            textChangedCallback.invoke(it)
         }
         val descriptionPanel = JPanel()
         descriptionPanel.layout = BoxLayout(descriptionPanel, BoxLayout.Y_AXIS)
         descriptionPanel.add(JLabel("Description: "))
         descriptionPanel.add(editTextDesc)
+        return descriptionPanel
+    }
 
-        val items: List<Component> = listOf<Component>()
-                .plus(arrayOf(
-                        labelGroup,
-                        descriptionPanel
-                ))
-
-        val result = BVDialogWrapper(
+    private fun showDialog(project: Project?, title: String, items: List<Component>): Boolean {
+        return BVDialogWrapper(
                 project,
                 title,
                 items
         ).showAndGet()
-
-        if (result) {
-            project?.let {
-                createSubmitPRTask(
-                        project,
-                        labelGroup.selectedValue?.labelValue.orEmpty(),
-                        prDescription
-                )
-            } ?: run {
-                Messages.showMessageDialog(
-                        null,
-                        "EMPTY PROJECT",
-                        "ERROR",
-                        Messages.getErrorIcon()
-                )
-            }
-        }
-
-    }
-
-    private fun createSubmitPRTask(project: Project, label: String, description: String) {
-        val settings = ExternalSystemTaskExecutionSettings()
-        settings.externalProjectPath = project.basePath
-        settings.taskNames = listOf("submitPr")
-        settings.scriptParameters = "-P bv.label=$label -P bv.desc=$description"
-        settings.externalSystemIdString = /*GradleConstants.SYSTEM_ID.id*/ProjectSystemId("GRADLE").id
-
-        ExternalSystemUtil.runTask(
-                settings, DefaultRunExecutor.EXECUTOR_ID, project, /*GradleConstants.SYSTEM_ID*/ProjectSystemId("GRADLE"),
-                null, ProgressExecutionMode.IN_BACKGROUND_ASYNC, false)
     }
 
 }
