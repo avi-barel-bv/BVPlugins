@@ -1,8 +1,6 @@
 package com.bluevine.plugins.bvplugins.menu
 
-import com.bluevine.plugins.bvplugins.actions.ComingSoonAction
-import com.bluevine.plugins.bvplugins.actions.CreatePRAction
-import com.bluevine.plugins.bvplugins.actions.RunDetektAction
+import com.bluevine.plugins.bvplugins.actions.*
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -27,7 +25,9 @@ class MenuAction : AnAction(), MenuActionsContract.MenuActionSelectedListener {
     override fun onActionSelected(menuAction: MenuActionsContract.MenuAction, project: Project?) {
         val pluginAction = when (menuAction) {
             MenuActionsContract.MenuAction.CREATE_PR -> CreatePRAction()
+            MenuActionsContract.MenuAction.CREATE_PROTECTED_BRANCH -> CreateProtectedBranchAction()
             MenuActionsContract.MenuAction.RUN_DETEKT -> RunDetektAction()
+            MenuActionsContract.MenuAction.RUN_FOR_KOVER -> RunTestKoverAction()
             MenuActionsContract.MenuAction.COMING_SOON -> ComingSoonAction()
         }
 
