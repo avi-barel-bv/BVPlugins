@@ -13,9 +13,9 @@ on:
 automations:
   print_names:
     run:
+      - echo "HELLO DUDE"
       - echo "branch.name = ${branch.name}"
       - echo "pr.target = ${pr.target}"
-      - action: add-github-check@v1
 
   skip_github_action_branch:
     if:
