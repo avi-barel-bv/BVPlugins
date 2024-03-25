@@ -13,16 +13,17 @@ on:
 automations:
   skip_github_action_branch:
     if:
-      - {{ pr.target | includes(term='release') }}
+#      - {{ pr.target | includes(term='release') }}
+      - {{ branch.name | includes(term='master') }}
     run:
       - action: add-github-check@v1
         args:
-          check_name: staging-ci
+          check_name: unit-test
           conclusion: skipped
       - action: add-comment@v1
         args:
           comment: |
-          [gitStream](https://docs.gitstream.cm) automatically skipped staging CI pipelines because this PR targets the release branch.
+          [gitStream]: (https://docs.gitstream.cm) automatically skipped staging CI pipelines because this PR targets the release branch.
 
 #      automations:
 #          # Add a label that indicates how many minutes it will take to review the PR.
