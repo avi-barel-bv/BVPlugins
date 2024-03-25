@@ -16,6 +16,8 @@ automations:
 #      - {{ pr.target | includes(term='release') }}
       - {{ branch.name | includes(term='master') }}
     run:
+      - echo "branch.name = ${branch.name}"
+      - echo "pr.target = ${pr.target}"
       - action: add-github-check@v1
         args:
           check_name: unit-test
