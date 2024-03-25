@@ -11,6 +11,12 @@ on:
 # Optionally, you can change pr.target to branch.name
 # if you want to trigger based on the source branch name rather then the target branch name.
 automations:
+  print_names:
+    run:
+      - echo "branch.name = ${branch.name}"
+      - echo "pr.target = ${pr.target}"
+      - action: add-github-check@v1
+
   skip_github_action_branch:
     if:
 #      - {{ pr.target | includes(term='release') }}
