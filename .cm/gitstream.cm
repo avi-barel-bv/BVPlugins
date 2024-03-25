@@ -22,10 +22,10 @@ automations:
         args:
           check_name: unit-test
           conclusion: skipped
-      - action: add-comment@v1
-        args:
-          comment: |
-          [gitStream]: (https://docs.gitstream.cm) automatically skipped staging CI pipelines because this PR targets the release branch.
+#      - action: add-comment@v1
+#        args:
+#          comment: |
+#          [gitStream]: (https://docs.gitstream.cm) automatically skipped staging CI pipelines because this PR targets the release branch.
 
 #      automations:
 #          # Add a label that indicates how many minutes it will take to review the PR.
